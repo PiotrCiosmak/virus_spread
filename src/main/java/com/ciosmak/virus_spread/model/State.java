@@ -1,4 +1,4 @@
-package model;
+package com.ciosmak.virus_spread.model;
 
 import javafx.scene.paint.Color;
 

@@ -16,6 +16,7 @@ public class SimulationApp extends Application
         Scene scene = new Scene(loader.load(), 700, 800);
         primaryStage.setTitle("Virus Spread Simulation");
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
