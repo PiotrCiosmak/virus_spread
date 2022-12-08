@@ -1,12 +1,16 @@
 package com.ciosmak.virus_spread.model;
 
 
+import com.ciosmak.virus_spread.model.State.ResistantState;
+import com.ciosmak.virus_spread.model.State.State;
+import com.ciosmak.virus_spread.model.State.HasSymptomsState;
+import com.ciosmak.virus_spread.model.State.NoSymptomsState;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Person
@@ -28,6 +32,11 @@ public class Person
     private int sickTime = 0;
     private double speed = 0.0;
     private HashMap<Integer, Double> timeNearOthers = new HashMap<>();
+
+    void changeState(State state)
+    {
+        this.state = state;
+    }
 
     public Person(State state, Pane world)
     {
@@ -95,7 +104,7 @@ public class Person
         {
             if (!other.isLeft())
             {
-                if ((other.getState() == State.NO_SYMPYOMS || other.getState() == State.HAS_SYMPTOMS) && state == State.HEALTHY)
+                if ((other.getState() == state || other.getState() == state) && state ==state)
                 {
 
                     if (position.near(other.position))
@@ -103,15 +112,15 @@ public class Person
                         timeNearOthers.put(java.lang.System.identityHashCode(other), timeNearOthers.get(java.lang.System.identityHashCode(other)) + 1);
                         if (timeNearOthers.get(java.lang.System.identityHashCode(other)) >= 5)
                         {
-                            if (other.getState() == State.HAS_SYMPTOMS)
+                            if (Objects.equals(other.getState(), new HasSymptomsState(this)))
                             {
                                 if (Math.random() < 0.5)
                                 {
-                                    setState(State.HAS_SYMPTOMS);
+                                    changeState(new HasSymptomsState(this));
                                 }
                                 else
                                 {
-                                    setState(State.NO_SYMPYOMS);
+                                    changeState(new NoSymptomsState(this));
                                 }
                             }
                             else
@@ -120,11 +129,11 @@ public class Person
                                 {
                                     if (Math.random() < 0.5)
                                     {
-                                        setState(State.HAS_SYMPTOMS);
+                                        changeState(new HasSymptomsState(this));
                                     }
                                     else
                                     {
-                                        setState(State.NO_SYMPYOMS);
+                                        changeState(new NoSymptomsState(this));
                                     }
                                 }
                                 else
@@ -153,12 +162,12 @@ public class Person
 
     public void feelBetter()
     {
-        if (state == State.HAS_SYMPTOMS || state == State.NO_SYMPYOMS)
+        if (Objects.equals(state, new HasSymptomsState(this)) || Objects.equals(state, new NoSymptomsState(this)))
         {
             sickTime++;
             if (sickTime > healtime)
             {
-                setState(State.RESISTANT);
+                changeState(new ResistantState(this));
             }
         }
     }

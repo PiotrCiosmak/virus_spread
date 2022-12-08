@@ -1,5 +1,8 @@
 package com.ciosmak.virus_spread.model;
 
+import com.ciosmak.virus_spread.model.State.HasSymptomsState;
+import com.ciosmak.virus_spread.model.State.HealthyState;
+import com.ciosmak.virus_spread.model.State.NoSymptomsState;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -18,16 +21,16 @@ public class Simulation
             {
                 if (Math.random() < 0.5)
                 {
-                    people.add(new Person(State.HAS_SYMPTOMS, world));
+                    people.add(new Person(new HasSymptomsState(this), world));
                 }
                 else
                 {
-                    people.add(new Person(State.NO_SYMPYOMS, world));
+                    people.add(new Person(new NoSymptomsState(this), world));
                 }
             }
             else
             {
-                people.add(new Person(State.HEALTHY, world));
+                people.add(new Person(new HealthyState(this), world));
             }
 
         }
@@ -70,16 +73,16 @@ public class Simulation
         {
             if (Math.random() < 0.5)
             {
-                people.add(new Person(State.HAS_SYMPTOMS, world, randomEdge));
+                people.add(new Person(new HasSymptomsState(this), world, randomEdge));
             }
             else
             {
-                people.add(new Person(State.NO_SYMPYOMS, world, randomEdge));
+                people.add(new Person(new NoSymptomsState(this), world, randomEdge));
             }
         }
         else
         {
-            people.add(new Person(State.HEALTHY, world, randomEdge));
+            people.add(new Person(new HealthyState(this), world, randomEdge));
         }
     }
 
