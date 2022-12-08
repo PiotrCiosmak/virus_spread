@@ -1,6 +1,7 @@
 package com.ciosmak.virus_spread.model;
 
 
+import com.ciosmak.virus_spread.model.Memento.Snapshot;
 import com.ciosmak.virus_spread.model.State.ResistantState;
 import com.ciosmak.virus_spread.model.State.State;
 import com.ciosmak.virus_spread.model.State.HasSymptomsState;
@@ -104,7 +105,7 @@ public class Person
         {
             if (!other.isLeft())
             {
-                if ((other.getState() == state || other.getState() == state) && state ==state)
+                if ((other.getState() == state || other.getState() == state) && state == state)
                 {
 
                     if (position.near(other.position))
@@ -175,5 +176,61 @@ public class Person
     public void randomizeSpeed()
     {
         speed = ThreadLocalRandom.current().nextDouble(0.0, 2.5);
+    }
+
+    public void setHealtime(int healtime)
+    {
+        this.healtime = healtime;
+    }
+
+    public void setPosition(Position position)
+    {
+        this.position = position;
+    }
+
+    public void setLeft(boolean left)
+    {
+        this.left = left;
+    }
+
+    public void setTimeNearOthers(HashMap<Integer, Double> timeNearOthers)
+    {
+        this.timeNearOthers = timeNearOthers;
+    }
+
+    public void setWorld(Pane world)
+    {
+        this.world = world;
+    }
+
+    public void setSickTime(int sickTime)
+    {
+        this.sickTime = sickTime;
+    }
+
+    public void setSpeed(double speed)
+    {
+        this.speed = speed;
+    }
+
+    public Snapshot createSnapshot()
+    {
+        return new Snapshot(state, healtime, position, isLeft(), world, sickTime, speed, timeNearOthers);
+    }
+
+    public class Command
+    {
+        private Snapshot backup;
+
+        public void makeBackup()
+        {
+            backup= createSnapshot();
+        }
+
+        public void undo()
+        {
+            if(backup!=null)
+                backup.restore();
+        }
     }
 }
