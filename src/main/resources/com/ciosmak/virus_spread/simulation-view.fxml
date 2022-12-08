@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ciosmak.virus_spread.SimulationController">
     <top>
-        <Label text="Label" BorderPane.alignment="CENTER" />
+        <Label text="Virus Spread Simulation" BorderPane.alignment="CENTER" />
     </top>
     <center>
-        <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+        <Pane fx:id="world" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </BorderPane.margin></Pane>
     </center>
     <bottom>
         <HBox alignment="CENTER" BorderPane.alignment="CENTER">
             <children>
-                <Button mnemonicParsing="false" text="Reset" />
-                <Button mnemonicParsing="false" text="Start" />
-                <Button mnemonicParsing="false" text="Stop" />
-                <Button mnemonicParsing="false" text="Step" />
+                <Button mnemonicParsing="false" onAction="#reset" text="Reset" />
+                <Button fx:id="startButton" mnemonicParsing="false" onAction="#start" text="Start" />
+                <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stop" text="Stop" />
+                <Button fx:id="stepButton" mnemonicParsing="false" onAction="#step" text="Step" />
             </children>
         </HBox>
     </bottom>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
 </BorderPane>
