@@ -28,6 +28,26 @@ public class Vector2D implements IVector
         return x * param.getComponents().get(0) + y * param.getComponents().get(1);
     }
 
+    public double getX()
+    {
+        return x;
+    }
+
+    public void setX(double x)
+    {
+        this.x = x;
+    }
+
+    public double getY()
+    {
+        return y;
+    }
+
+    public void setY(double y)
+    {
+        this.y = y;
+    }
+
     private double x;
     private double y;
 }
