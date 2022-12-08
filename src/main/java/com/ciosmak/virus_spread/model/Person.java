@@ -101,15 +101,36 @@ public class Person
                     if (position.near(other.position))
                     {
                         timeNearOthers.put(java.lang.System.identityHashCode(other), timeNearOthers.get(java.lang.System.identityHashCode(other)) + 1);
-                        if (timeNearOthers.get(java.lang.System.identityHashCode(other)) >= 75)
+                        if (timeNearOthers.get(java.lang.System.identityHashCode(other)) >= 5)
                         {
-                            if (Math.random() < 0.5)
+                            if (other.getState() == State.HAS_SYMPTOMS)
                             {
-                                setState(State.HAS_SYMPTOMS);
+                                if (Math.random() < 0.5)
+                                {
+                                    setState(State.HAS_SYMPTOMS);
+                                }
+                                else
+                                {
+                                    setState(State.NO_SYMPYOMS);
+                                }
                             }
                             else
                             {
-                                setState(State.NO_SYMPYOMS);
+                                if (Math.random() < 0.5)
+                                {
+                                    if (Math.random() < 0.5)
+                                    {
+                                        setState(State.HAS_SYMPTOMS);
+                                    }
+                                    else
+                                    {
+                                        setState(State.NO_SYMPYOMS);
+                                    }
+                                }
+                                else
+                                {
+                                    timeNearOthers.put(java.lang.System.identityHashCode(other), 0.0);
+                                }
                             }
                         }
                     }

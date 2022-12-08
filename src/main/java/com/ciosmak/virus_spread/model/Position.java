@@ -1,39 +1,44 @@
 package com.ciosmak.virus_spread.model;
 
+import com.ciosmak.virus_spread.Vector2D.Vector2D;
 import javafx.scene.layout.Pane;
 
 public class Position
 {
-    private double x;
-    private double y;
+    private Vector2D vector2D;
 
     public Position(double x, double y)
     {
-        this.x = x;
-        this.y = y;
+        vector2D = new Vector2D(x,y);
+    }
+
+    double getX()
+    {
+        return this.vector2D.getX();
+    }
+
+    double getY()
+    {
+        return this.vector2D.getY();
     }
 
     public Position(Pane world, int edge)
     {
         if (edge == 1)
         {
-            this.x = Person.radius + Math.random() * (world.getWidth() - 2 * Person.radius);
-            this.y = Person.radius;
+            vector2D = new Vector2D(Person.radius + Math.random() * (world.getWidth() - 2 * Person.radius),Person.radius);
         }
         else if (edge == 2)
         {
-            this.x = world.getWidth() - Person.radius;
-            this.y = Person.radius + Math.random() * (world.getHeight() - 2 * Person.radius);
+            vector2D = new Vector2D(world.getWidth() - Person.radius,Person.radius + Math.random() * (world.getHeight() - 2 * Person.radius));
         }
         else if (edge == 3)
         {
-            this.x = Person.radius + Math.random() * (world.getWidth() - 2 * Person.radius);
-            this.y = world.getHeight() - Person.radius;
+            vector2D = new Vector2D(Person.radius + Math.random() * (world.getWidth() - 2 * Person.radius),world.getHeight() - Person.radius);
         }
         else
         {
-            x = Person.radius;
-            this.y = Person.radius + Math.random() * (world.getHeight() - 2 * Person.radius);
+            vector2D = new Vector2D(Person.radius,Person.radius + Math.random() * (world.getHeight() - 2 * Person.radius));
         }
     }
 
@@ -42,19 +47,9 @@ public class Position
         this(Person.radius + Math.random() * (world.getWidth() - 2 * Person.radius), Person.radius + Math.random() * (world.getHeight() - 2 * Person.radius));
     }
 
-    public double getX()
-    {
-        return x;
-    }
-
-    public double getY()
-    {
-        return y;
-    }
-
     public double distance(Position other)
     {
-        return Math.sqrt(Math.pow(this.x - other.x, 2) + (Math.pow(this.y - other.y, 2)));
+        return Math.sqrt(Math.pow(this.vector2D.getX() - other.vector2D.getX(), 2) + (Math.pow(this.vector2D.getY() - other.vector2D.getY(), 2)));
     }
 
     public boolean move(Heading heading, Pane world)
@@ -63,32 +58,32 @@ public class Position
         {
             heading.randomizeDir();
         }
-        x += heading.getDx();
-        y += heading.getDy();
+        this.vector2D.setX(this.vector2D.getX() + heading.getDx());
+        this.vector2D.setY(this.vector2D.getY() + heading.getDy());
         return leftOrTurnBack(heading, world);
 
     }
 
     private boolean leftOrTurnBack(Heading heading, Pane world)
     {
-        if (x < Person.radius || x > world.getWidth() - Person.radius)
+        if (this.vector2D.getX() < Person.radius || this.vector2D.getX() > world.getWidth() - Person.radius)
         {
             if (Math.random() < 0.5)
             {
                 heading.bounceX();
-                x += heading.getDx();
+                this.vector2D.setX(this.vector2D.getX() + heading.getDx());
             }
             else
             {
                 return true;
             }
         }
-        else if (y < Person.radius || y > world.getHeight() - Person.radius)
+        else if (this.vector2D.getY() < Person.radius || this.vector2D.getY() > world.getHeight() - Person.radius)
         {
             if (Math.random() < 0.5)
             {
                 heading.bounceY();
-                y += heading.getDy();
+                this.vector2D.setY(this.vector2D.getY() + heading.getDy());
             }
             else
             {
